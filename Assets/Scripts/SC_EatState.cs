@@ -28,12 +28,13 @@ public class SC_EatState : SC_BaseState
         {
             stateMachine.agent.SetDestination(stateMachine.body.position);
         }
-        //stateMachine.agent.GetComponent<NavMeshAgent>().
+
+        OnStateEnd();
     }
 
     public override void OnStateEnd()
     {
-        
+        Debug.Log("J'AI ENCORE FAIM !");
     }
 
   

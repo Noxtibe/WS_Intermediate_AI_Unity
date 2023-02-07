@@ -7,19 +7,21 @@ using UnityEngine.AI;
 
 public class SC_StateMachine : MonoBehaviour
 {
-    private SC_BaseState currentState;
+    public SC_BaseState currentState;
     [SerializeField] public List<GameObject> waypoints;
     public bool Hungry, FoundBody, Tired, HasWin, HasLost, NoFood, EatEnough;
 
     public NavMeshAgent agent;
     public Transform body;
+
     public float distanceTreshold = 2f;
     public int current = 0;
-    public int delay = 2;
+    public float delay = 0f;
 
     void Start()
     {
-        currentState = new SC_BornState();
+        //currentState = new SC_BornState();
+        currentState = gameObject.AddComponent<SC_BornState>();
         currentState.OnStart(this);
         agent = GetComponent<NavMeshAgent>();
         waypoints = GameObject.FindGameObjectsWithTag("Waypoint").ToList();
@@ -29,6 +31,8 @@ public class SC_StateMachine : MonoBehaviour
     void Update()
     {
         currentState.OnUpdate();
+
+
     }
 
     public void OnStateEnd() 

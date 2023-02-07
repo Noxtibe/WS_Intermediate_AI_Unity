@@ -13,14 +13,15 @@ public class SC_BornState : SC_BaseState
         stateMachine.delay = 2;
         Debug.Log("Im a Tyranid Grrrrrrrr");
     }
+    public override void OnUpdate()
+    {
+        OnStateEnd();
+    }
 
     public override void OnStateEnd()
     {
-
+        //Debug.Log("Im gonna eat everything on this Universe !");
+        int rand = Random ;
     }
 
-    public override void OnUpdate()
-    {
-
-    }
 }
