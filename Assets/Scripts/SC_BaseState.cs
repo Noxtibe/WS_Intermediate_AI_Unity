@@ -9,6 +9,5 @@ public abstract class SC_BaseState : MonoBehaviour
     abstract public void OnUpdate();
 
     abstract public void OnStateEnd();
-
 }
 
