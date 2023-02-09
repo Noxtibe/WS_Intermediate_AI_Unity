@@ -1,51 +1,84 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 using UnityEngine.AI;
 
 public class SC_StateMachine : MonoBehaviour
 {
-    public SC_BaseState currentState;
-    [SerializeField] public List<GameObject> waypoints;
-    public bool Hungry, FoundBody, Tired, HasWin, HasLost, NoFood, EatEnough;
+    SC_BaseState currentState;
+    public List<Transform> waypoints;
+    public NavMeshAgent agent { get; private set; }
 
-    public NavMeshAgent agent;
+    public bool isHungry, isExploring, isTired, sleepTime, isFighting, hasNoFood, hasEatEnough, isDead;
+
     public Transform body;
+    public Transform nest;
 
-    public float distanceTreshold = 2f;
-    public int current = 0;
     public float delay = 0f;
+
+    private void Awake()
+    {
+        currentState = new SC_BornState();
+        agent = GetComponent<NavMeshAgent>();
+    }
 
     void Start()
     {
-        //currentState = new SC_BornState();
-        currentState = gameObject.AddComponent<SC_BornState>();
         currentState.OnStart(this);
-        agent = GetComponent<NavMeshAgent>();
-        waypoints = GameObject.FindGameObjectsWithTag("Waypoint").ToList();
     }
-
 
     void Update()
     {
-        currentState.OnUpdate();
-
-
+        if(delay <= 0f)
+        {
+            currentState.OnUpdate();
+        }
+        delay -= Time.deltaTime;
     }
 
     public void OnStateEnd() 
     { 
-        if(Hungry)
+        if(isExploring)
         {
-            currentState = new SC_SearchFoodState();
+            currentState = new SC_ExploringState();
         }
 
-        if(FoundBody)
+        if(isHungry)
         {
             currentState = new SC_EatState();
         }
+
+        if(isTired)
+        {
+            currentState = new SC_SleepState();
+        }
+
+        if (hasNoFood)
+        {
+            currentState = new SC_NoFoodState();
+        }
+
+        if (isFighting)
+        {
+            currentState = new SC_FightState();
+        }
+
+        if(hasEatEnough)
+        {
+            currentState = new SC_EatEnoughState();
+        }
+
+        if(isDead)
+        {
+            currentState = new SC_DieState();
+        }
+
+        currentState.OnStart(this);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        currentState.OnCollision(other);
     }
 }
 
