@@ -18,20 +18,21 @@ public class SC_ExploringState : SC_BaseState
 
     public override void OnUpdate()
     {
-        if (Vector3.Distance(stateMachine.transform.position, stateMachine.waypoints[current].transform.position) <= 1.0f)
+        Debug.Log("Explore");
+        if (Vector3.Distance(stateMachine.transform.position, stateMachine.waypoints[current].transform.position) <= 3.0f)
         {
             if(!awake)
             {
                 awake = true;
                 stateMachine.delay = delay;
-                Debug.Log("awake false");
+                Debug.Log("awake true");
             }
             else if(stateMachine.delay <= 0)
             {
                 current = (current + 1) % stateMachine.waypoints.Count;
                 awake = false;
                 OnStateEnd();
-                Debug.Log("HEZGZAEFZEFZFGEZ");
+                Debug.Log("awake false");
             }  
         }
     }
@@ -47,25 +48,24 @@ public class SC_ExploringState : SC_BaseState
                 MoveToNextWaypoint();
                 break;
             case 1:
+                Debug.Log("Found food !");
                 stateMachine.isExploring = false;
                 stateMachine.isHungry = true;
-                Debug.Log("I FOUUUUND YOUUUUU !");
                 stateMachine.OnStateEnd();
                 break;
             case 2:
+                Debug.Log("Pas de nourriture");
                 stateMachine.isExploring = false;
-                stateMachine.isFighting = true;
-                Debug.Log("Fighting time for food !");
-                stateMachine.OnStateEnd();
+                stateMachine.hasNoFood = true;
                 break;
             default:
-                Debug.Log("Where is my food ?");
+                Debug.Log("Default");
                 MoveToNextWaypoint();
                 break;
         }
     }
 
-    void MoveToNextWaypoint()
+    public void MoveToNextWaypoint()
     {
         stateMachine.agent.SetDestination(stateMachine.waypoints[current].transform.position);
     }

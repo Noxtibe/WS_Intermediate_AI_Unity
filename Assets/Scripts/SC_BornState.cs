@@ -25,7 +25,7 @@ public class SC_BornState : SC_BaseState
         if(rand == 0)
         {
             stateMachine.sleepTime = false;
-            stateMachine.isHungry = true;
+            stateMachine.isTired = true;
         }
         else
         {

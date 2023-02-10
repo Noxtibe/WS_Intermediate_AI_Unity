@@ -10,11 +10,11 @@ public class SC_SleepState : SC_BaseState
 public override void OnStart(SC_StateMachine fsm)
     {
         stateMachine = fsm;
-        Debug.Log("ZZZZZZZ");
+        Debug.Log("Sommeil");
     }
     public override void OnUpdate()
     {
-        if (Vector3.Distance(stateMachine.transform.position, stateMachine.nest.position) <= 1f)
+        if (Vector3.Distance(stateMachine.transform.position, stateMachine.nest.position) <= 3.0f)
         {
             Initialization();
             if (basePos == Vector3.zero)
@@ -22,13 +22,15 @@ public override void OnStart(SC_StateMachine fsm)
             stateMachine.agent.enabled = false;
             stateMachine.transform.position = Vector3.Lerp(stateMachine.transform.position, stateMachine.nest.position, Time.deltaTime);
 
-            if (!sleep && stateMachine.transform.position.y <= 0.5f)
+            if (!sleep && stateMachine.transform.position.y <= 0.3f)
             {
+                Debug.Log("Ronflement mignon");
                 sleep = true;
                 stateMachine.delay = 6.0f;
             }
             if (sleep && stateMachine.delay <= 0)
             {
+                Debug.Log("Réveil");
                 OnStateEnd();
             }
         }
@@ -47,6 +49,7 @@ public override void OnStart(SC_StateMachine fsm)
             stateMachine.agent.enabled = true;
             stateMachine.isTired = false;
             stateMachine.sleepTime = true;
+            stateMachine.isExploring = true;
             stateMachine.OnStateEnd();
         }
     }

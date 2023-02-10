@@ -43,11 +43,31 @@ public class SC_EatState : SC_BaseState
 
     public override void OnStateEnd()
     {
-        Debug.Log("J'AI ENCORE FAIM !");
         stateMachine.agent.isStopped = false;
-        stateMachine.isHungry = false;
-        stateMachine.isExploring = true;
-        stateMachine.OnStateEnd();
+
+        int rand = Random.Range(0, 2);
+
+        switch (rand)
+        {
+            case 0:
+                Debug.Log("J'ai sommeil");
+                stateMachine.sleepTime = false;
+                stateMachine.isHungry = false;
+                stateMachine.isTired = true;
+                break;
+            case 1:
+                Debug.Log("J'AI ENCORE FAIM !");
+                stateMachine.isHungry = false;
+                stateMachine.isExploring = true;
+                stateMachine.OnStateEnd();
+                break;
+            default:
+                Debug.Log("Default");
+                stateMachine.sleepTime = false;
+                stateMachine.isHungry = false;
+                stateMachine.isTired = true;
+                break;
+        }
     }
 
     public override void OnCollision(Collider other)
