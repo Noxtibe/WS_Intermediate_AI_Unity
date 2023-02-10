@@ -54,7 +54,7 @@ public class SC_ExploringState : SC_BaseState
                 stateMachine.OnStateEnd();
                 break;
             case 2:
-                Debug.Log("Pas de nourriture");
+                Debug.Log("No food...");
                 stateMachine.isExploring = false;
                 stateMachine.hasNoFood = true;
                 stateMachine.OnStateEnd();
