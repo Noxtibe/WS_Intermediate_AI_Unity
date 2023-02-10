@@ -39,7 +39,7 @@ public class SC_ExploringState : SC_BaseState
 
     public override void OnStateEnd()
     {
-        int rand = Random.Range(0, 3);
+        int rand = Random.Range(0, 4);
 
         switch(rand)
         {
@@ -58,6 +58,10 @@ public class SC_ExploringState : SC_BaseState
                 stateMachine.isExploring = false;
                 stateMachine.hasNoFood = true;
                 stateMachine.OnStateEnd();
+                break;
+            case 3:
+                Debug.Log("Where is my food ?");
+                MoveToNextWaypoint();
                 break;
             default:
                 Debug.Log("Default");
